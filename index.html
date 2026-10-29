@@ -47,7 +47,7 @@ h2{font-size:.8rem;color:var(--sub);margin:18px 0 4px;font-weight:700}
 <script>
 var UNITS=[{"k":"VISION","n":"医薬営業本部ビジョン","g":"実務教育（共通30問）","x":1,"c":2},{"k":"NINTEI","n":"MR認定制度","g":"実務教育（共通30問）","x":1,"c":5},{"k":"OPSS","n":"OPSS/PCS","g":"実務教育（共通30問）","x":2,"c":34},{"k":"RINRI","n":"倫理（コード・公競規）","g":"実務教育（共通30問）","x":4,"c":14},{"k":"GL","n":"販売情報提供活動GL","g":"実務教育（共通30問）","x":4,"c":54},{"k":"MANNER","n":"マナー","g":"実務教育（共通30問）","x":2,"c":67},{"k":"SEIDO","n":"医療関連制度","g":"実務教育（共通30問）","x":5,"c":13},{"k":"PMS","n":"PMS","g":"実務教育（共通30問）","x":10,"c":159},{"k":"VEEVA","n":"Veeva","g":"実務教育（共通30問）","x":1,"c":6},{"k":"SS","n":"サムスカ・サムタス（SS/SI）","g":"製品（総合MR 70問）","x":4,"c":103},{"k":"ER","n":"エンレスト（ER）","g":"製品（総合MR 70問）","x":18,"c":208},{"k":"PU","n":"プレタール（PU）","g":"製品（総合MR 70問）","x":1,"c":17},{"k":"MZ","n":"モイゼルト（MZ）","g":"製品（総合MR 70問）","x":1,"c":21},{"k":"LK","n":"ルプキネス（LK）","g":"製品（総合MR 70問）","x":4,"c":10},{"k":"NX","n":"ネクセトール（NX）","g":"製品（総合MR 70問）","x":13,"c":26},{"k":"RX","n":"レキサルティ・エビリファイ（AB/RX）","g":"製品（総合MR 70問）","x":10,"c":105},{"k":"SL","n":"セリンクロ（SL）","g":"製品（総合MR 70問）","x":1,"c":29},{"k":"AJ","n":"アジョビ（AJ）","g":"製品（総合MR 70問）","x":1,"c":10},{"k":"NW","n":"ニュープロパッチ（NW）","g":"製品（総合MR 70問）","x":1,"c":16},{"k":"TC","n":"タケキャブ・キャブピリン（TC）","g":"製品（総合MR 70問）","x":13,"c":162},{"k":"MC","n":"ムコスタ（MC）","g":"製品（総合MR 70問）","x":1,"c":14},{"k":"LC","n":"エルカルチンFF（LC）","g":"製品（総合MR 70問）","x":1,"c":21},{"k":"IC","n":"アイクルシグ（IC）","g":"製品（総合MR 70問）","x":1,"c":7},{"k":"NXY","n":"ネクセトール（NX）予想問題","g":"予想問題（テキストから作成）","x":13,"c":77},{"k":"SEIDOY","n":"医療関連制度 予想問題","g":"予想問題（テキストから作成）","x":5,"c":33}];
 var INLINE=/*INLINE*/null/*END*/;
-var CRY={"salt":"XFcxvI7gdtuLZWA3RjIgww==","it":150000,"chk":"ZGCPy7SyaiLYH9FC388rFw==.EkTj5PmMjjJMA9v7mp/N+Q=="},KEY=null,VER="20261030021646";
+var CRY={"salt":"XFcxvI7gdtuLZWA3RjIgww==","it":150000,"chk":"+i2DLlvMvYzXmZfBehEP2g==.uxBcxuidm4kAldvfSgdzoA=="},KEY=null,VER="20261030022719";
 var cache={},rec={},pf={o:"r",f:"a",au:1},dy={d:"",n:0},S=null,T=null;
 function ld(k,d){try{return JSON.parse(localStorage.getItem(k))||d}catch(e){return d}}
 function sv(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
@@ -134,13 +134,14 @@ function show(){
   A.innerHTML=h;scrollTo(0,0);
 }
 function ans(v,b){
-  var q=S.l[S.i],c=q.a,ok=v===c;S.done=1;S.at=Date.now();
-  var bs=A.querySelectorAll("[data-v]");for(var i=0;i<bs.length;i++){bs[i].disabled=true;if(+bs[i].dataset.v===c)bs[i].className="right"}
+  // q.b＝順不同の空欄で、どちらを選んでも正解にする別解
+  var q=S.l[S.i],c=q.a,alt=q.b&&q.b.indexOf(v)>=0,ok=v===c||alt;S.done=1;S.at=Date.now();
+  var bs=A.querySelectorAll("[data-v]");for(var i=0;i<bs.length;i++){bs[i].disabled=true;if(+bs[i].dataset.v===c||(alt&&+bs[i].dataset.v===v))bs[i].className="right"}
   if(!ok)b.className="wrong";
   rec[q.i]=ok?1:0;sv("tq-r",rec);
   if(dy.d!=td())dy={d:td(),n:0};dy.n++;sv("tq-d",dy);
   if(ok)S.ok++;else S.w.push(q);
-  var at=q.t?(q.a?"○":"×"):"①②③④⑤⑥"[S.ord.indexOf(q.a)]+" "+q.c[q.a];
+  var at=q.t?(q.a?"○":"×"):"①②③④⑤⑥"[S.ord.indexOf(q.a)]+" "+q.c[q.a]+(q.b?"（"+q.b.map(function(x){return q.c[x]}).join("・")+"でも正解。順不同）":"");
   document.getElementById("res").innerHTML='<div class="res '+(ok?"o":"x")+'"><b>'+(ok?"正解":"不正解")+'　正解は '+e(at)+'</b>'+e(q.e||"")+'</div>';
   B.hidden=false;
   document.getElementById("res").scrollIntoView({block:"nearest"});
