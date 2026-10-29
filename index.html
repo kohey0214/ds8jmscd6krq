@@ -151,7 +151,7 @@ function derive(pw){
    .then(function(bits){var raw=new Uint8Array(bits);return useRaw(raw).then(function(){var s="";raw.forEach(function(c){s+=String.fromCharCode(c)});sv("tq-k",btoa(s))})});
 }
 function lock(msg){
-  A.innerHTML='<h1>統一試験ドリル2026</h1><p class="sub">合言葉を入れてください（この端末では次から不要）。</p><form id="pf"><input id="pw" type="password" autocomplete="current-password" style="font:inherit;width:100%;padding:10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--fg)"><button class="big" type="submit">開く</button></form><p class="sub" id="pm">'+(msg||"")+'</p>';
+  A.innerHTML='<h1>統一試験ドリル2026</h1><p class="sub">合言葉を入れてください（この端末では次から不要）。</p><form id="pf"><input id="pw" type="text" lang="ja" autocomplete="off" autocapitalize="off" spellcheck="false" style="font:inherit;width:100%;padding:10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--fg)"><button class="big" type="submit">開く</button></form><p class="sub" id="pm">'+(msg||"")+'</p>';
   document.getElementById("pf").onsubmit=function(ev){ev.preventDefault();document.getElementById("pm").textContent="確認中…";derive(document.getElementById("pw").value.trim()).then(home,function(){lock("合言葉が違います。")})};
 }
 if(!CRY||INLINE)home();
