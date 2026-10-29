@@ -43,7 +43,7 @@ h2{font-size:.8rem;color:var(--sub);margin:18px 0 4px;font-weight:700}
 </head>
 <body>
 <main id="app"><p class="sub">読み込み中…</p></main>
-<div class="bar" id="bar" hidden><button id="nx" type="button">次へ（画面のどこをタップしても進みます）</button></div>
+<div class="bar" id="bar" hidden><button id="nx" type="button">次へ</button></div>
 <script>
 var UNITS=[{"k":"VISION","n":"医薬営業本部ビジョン","g":"実務教育（共通30問）","x":1,"c":2},{"k":"NINTEI","n":"MR認定制度","g":"実務教育（共通30問）","x":1,"c":5},{"k":"OPSS","n":"OPSS/PCS","g":"実務教育（共通30問）","x":2,"c":25},{"k":"RINRI","n":"倫理（コード・公競規）","g":"実務教育（共通30問）","x":4,"c":14},{"k":"GL","n":"販売情報提供活動GL","g":"実務教育（共通30問）","x":4,"c":51},{"k":"MANNER","n":"マナー","g":"実務教育（共通30問）","x":2,"c":66},{"k":"SEIDO","n":"医療関連制度","g":"実務教育（共通30問）","x":5,"c":19},{"k":"PMS","n":"PMS","g":"実務教育（共通30問）","x":10,"c":139},{"k":"VEEVA","n":"Veeva","g":"実務教育（共通30問）","x":1,"c":14},{"k":"SS","n":"サムスカ・サムタス（SS/SI）","g":"製品（総合MR 70問）","x":4,"c":91},{"k":"ER","n":"エンレスト（ER）","g":"製品（総合MR 70問）","x":18,"c":166},{"k":"PU","n":"プレタール（PU）","g":"製品（総合MR 70問）","x":1,"c":15},{"k":"MZ","n":"モイゼルト（MZ）","g":"製品（総合MR 70問）","x":1,"c":46},{"k":"LK","n":"ルプキネス（LK）","g":"製品（総合MR 70問）","x":4,"c":18},{"k":"NX","n":"ネクセトール（NX）","g":"製品（総合MR 70問）","x":13,"c":17},{"k":"RX","n":"レキサルティ・エビリファイ（AB/RX）","g":"製品（総合MR 70問）","x":10,"c":91},{"k":"SL","n":"セリンクロ（SL）","g":"製品（総合MR 70問）","x":1,"c":30},{"k":"AJ","n":"アジョビ（AJ）","g":"製品（総合MR 70問）","x":1,"c":16},{"k":"NW","n":"ニュープロパッチ（NW）","g":"製品（総合MR 70問）","x":1,"c":15},{"k":"TC","n":"タケキャブ・キャブピリン（TC）","g":"製品（総合MR 70問）","x":13,"c":121},{"k":"MC","n":"ムコスタ（MC）","g":"製品（総合MR 70問）","x":1,"c":14},{"k":"LC","n":"エルカルチンFF（LC）","g":"製品（総合MR 70問）","x":1,"c":21},{"k":"IC","n":"アイクルシグ（IC）","g":"製品（総合MR 70問）","x":1,"c":15}];
 var INLINE=/*INLINE*/null/*END*/;
@@ -89,8 +89,6 @@ function home(){
 function ob(k,v,t){return '<button class="'+(pf[k]==v?"on":"")+'" data-k="'+k+'" data-v="'+v+'">'+t+'</button>'}
 
 A.onclick=function(ev){
-  // 解説を出したあとは、画面のどこを1回タップしても次へ（「終わる」以外）
-  if(S&&S.done&&!ev.target.closest('[data-a="end"]')){if(Date.now()-S.at>400)next();return}
   var b=ev.target.closest("button");if(!b)return;var d=b.dataset;
   if(d.k){pf[d.k]=d.k=="au"?+d.v:d.v;sv("tq-p",pf);home();return}
   if(d.u){var u=U(d.u);get([d.u]).then(function(l){start(flt(l),u.n)});return}
