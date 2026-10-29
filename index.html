@@ -47,7 +47,7 @@ h2{font-size:.8rem;color:var(--sub);margin:18px 0 4px;font-weight:700}
 <script>
 var UNITS=[{"k":"VISION","n":"医薬営業本部ビジョン","g":"実務教育（共通30問）","x":1,"c":2},{"k":"NINTEI","n":"MR認定制度","g":"実務教育（共通30問）","x":1,"c":5},{"k":"OPSS","n":"OPSS/PCS","g":"実務教育（共通30問）","x":2,"c":34},{"k":"RINRI","n":"倫理（コード・公競規）","g":"実務教育（共通30問）","x":4,"c":14},{"k":"GL","n":"販売情報提供活動GL","g":"実務教育（共通30問）","x":4,"c":54},{"k":"MANNER","n":"マナー","g":"実務教育（共通30問）","x":2,"c":67},{"k":"SEIDO","n":"医療関連制度","g":"実務教育（共通30問）","x":5,"c":13},{"k":"PMS","n":"PMS","g":"実務教育（共通30問）","x":10,"c":159},{"k":"VEEVA","n":"Veeva","g":"実務教育（共通30問）","x":1,"c":6},{"k":"SS","n":"サムスカ・サムタス（SS/SI）","g":"製品（総合MR 70問）","x":4,"c":103},{"k":"ER","n":"エンレスト（ER）","g":"製品（総合MR 70問）","x":18,"c":208},{"k":"PU","n":"プレタール（PU）","g":"製品（総合MR 70問）","x":1,"c":17},{"k":"MZ","n":"モイゼルト（MZ）","g":"製品（総合MR 70問）","x":1,"c":21},{"k":"LK","n":"ルプキネス（LK）","g":"製品（総合MR 70問）","x":4,"c":10},{"k":"NX","n":"ネクセトール（NX）","g":"製品（総合MR 70問）","x":13,"c":26},{"k":"RX","n":"レキサルティ・エビリファイ（AB/RX）","g":"製品（総合MR 70問）","x":10,"c":105},{"k":"SL","n":"セリンクロ（SL）","g":"製品（総合MR 70問）","x":1,"c":29},{"k":"AJ","n":"アジョビ（AJ）","g":"製品（総合MR 70問）","x":1,"c":10},{"k":"NW","n":"ニュープロパッチ（NW）","g":"製品（総合MR 70問）","x":1,"c":16},{"k":"TC","n":"タケキャブ・キャブピリン（TC）","g":"製品（総合MR 70問）","x":13,"c":162},{"k":"MC","n":"ムコスタ（MC）","g":"製品（総合MR 70問）","x":1,"c":14},{"k":"LC","n":"エルカルチンFF（LC）","g":"製品（総合MR 70問）","x":1,"c":21},{"k":"IC","n":"アイクルシグ（IC）","g":"製品（総合MR 70問）","x":1,"c":7},{"k":"NXY","n":"ネクセトール（NX）予想問題","g":"予想問題（テキストから作成）","x":13,"c":77},{"k":"SEIDOY","n":"医療関連制度 予想問題","g":"予想問題（テキストから作成）","x":5,"c":33}];
 var INLINE=/*INLINE*/null/*END*/;
-var CRY={"salt":"XFcxvI7gdtuLZWA3RjIgww==","it":150000,"chk":"0i+B0fV3lAw/Xubpj2l7dg==.TpoAjRRy+HSCQV5Gc/Q8sQ=="},KEY=null,VER="20261030010634";
+var CRY={"salt":"XFcxvI7gdtuLZWA3RjIgww==","it":150000,"chk":"uS+sQRqd4dALnp+FzinP1w==.2LJJduanMQzL6f9DrWC67g=="},KEY=null,VER="20261030021503";
 var cache={},rec={},pf={o:"r",f:"a",au:1},dy={d:"",n:0},S=null,T=null;
 function ld(k,d){try{return JSON.parse(localStorage.getItem(k))||d}catch(e){return d}}
 function sv(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
@@ -102,7 +102,21 @@ A.onclick=function(ev){
 };
 function flt(l){if(pf.f=="t")l=l.filter(stp);if(pf.f=="n")l=l.filter(function(q){return rec[q.i]==null});return pf.o=="r"?sh(l):l}
 
+// 同じ文の穴埋め（a・b・c…）は、どれか1つが出たら全部を続けて出す
+var RXB=/\s*【[（(][^】]*に入るもの】\s*$/;
+function stem(q){return RXB.test(q.q)?q.u+"|"+q.q.replace(RXB,""):""}
+function grp(l,all){
+  var seen={},o=[];
+  l.forEach(function(q){
+    var k=stem(q);if(!k){o.push(q);return}
+    if(seen[k])return;seen[k]=1;
+    var src=all?(cache[q.u]||[]):l;
+    src.filter(function(x){return stem(x)==k}).sort(function(a,b){return a.i<b.i?-1:1}).forEach(function(x){o.push(x)});
+  });
+  return o;
+}
 function start(l,t){
+  l=grp(l,t!="間違えた問題");
   if(!l.length){A.innerHTML='<p>当てはまる問題がありません。</p><button data-a="home">戻る</button>';return}
   S={l:l,t:t,i:0,ok:0,w:[],done:0};show();
 }
