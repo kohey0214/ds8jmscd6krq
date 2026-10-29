@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>統一試験ドリル2026</title>
+<style>
+:root{--bg:#fff;--fg:#1a1a1a;--sub:#666;--line:#ddd;--ac:#0a5a8c;--ok:#1b7a43;--okb:#e6f4ea;--ng:#b3261e;--ngb:#fce8e6}
+@media (prefers-color-scheme:dark){:root{--bg:#121212;--fg:#eee;--sub:#aaa;--line:#333;--ac:#6ab4ea;--ok:#6fcf97;--okb:#173d27;--ng:#f28b82;--ngb:#3d1a18}}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.6 system-ui,-apple-system,"Hiragino Sans","Yu Gothic UI",Meiryo,sans-serif}
+main{max-width:680px;margin:0 auto;padding:12px 16px 90px}
+button{font:inherit;color:inherit;background:none;border:1px solid var(--line);border-radius:8px;padding:10px 12px;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+h1{font-size:1.2rem;margin:0}
+.row{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+.sub{color:var(--sub);font-size:.85rem}
+.big{display:block;width:100%;margin:12px 0 8px;background:var(--ac);border-color:var(--ac);color:#fff;font-weight:700;font-size:1.1rem;padding:14px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.opt{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0;font-size:.85rem}
+.opt button{padding:4px 10px;font-size:.85rem;border-radius:99px}
+.opt button.on{border-color:var(--ac);color:var(--ac);font-weight:700}
+h2{font-size:.8rem;color:var(--sub);margin:18px 0 4px;font-weight:700}
+.u{display:flex;justify-content:space-between;width:100%;border:0;border-bottom:1px solid var(--line);border-radius:0;padding:12px 2px;text-align:left}
+.u span:last-child{color:var(--sub);font-size:.8rem;white-space:nowrap;padding-left:8px}
+.q{font-size:1.05rem;white-space:pre-wrap;overflow-wrap:anywhere;margin:8px 0 14px}
+.tf{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.tf button{font-size:1.8rem;padding:12px 0;font-weight:700}
+.ch button{display:block;width:100%;text-align:left;margin-bottom:8px;overflow-wrap:anywhere}
+.right{border-color:var(--ok)!important;background:var(--okb)!important}
+.wrong{border-color:var(--ng)!important;background:var(--ngb)!important}
+.res{margin-top:12px;padding:12px;border-radius:8px;white-space:pre-wrap;overflow-wrap:anywhere}
+.res.o{background:var(--okb)}.res.x{background:var(--ngb)}
+.res b{display:block}
+.o b{color:var(--ok)}.x b{color:var(--ng)}
+.bar{position:fixed;left:0;right:0;bottom:0;padding:8px 16px calc(8px + env(safe-area-inset-bottom));background:var(--bg);border-top:1px solid var(--line)}
+.bar button{display:block;width:100%;max-width:680px;margin:0 auto;background:var(--ac);border-color:var(--ac);color:#fff;font-weight:700;padding:13px}
+.tag{font-size:.75rem;color:var(--sub)}
+.st{color:#9a6b00;font-weight:700}
+.w{border-left:3px solid var(--ng);padding:6px 10px;margin:8px 0;font-size:.9rem}
+</style>
+</head>
+<body>
+<main id="app"><p class="sub">読み込み中…</p></main>
+<div class="bar" id="bar" hidden><button id="nx" type="button">次へ</button></div>
+<script>
+var UNITS=[{"k":"VISION","n":"医薬営業本部ビジョン","g":"実務教育（共通30問）","x":1,"c":14},{"k":"NINTEI","n":"MR認定制度","g":"実務教育（共通30問）","x":1,"c":29},{"k":"OPSS","n":"OPSS/PCS","g":"実務教育（共通30問）","x":2,"c":68},{"k":"RINRI","n":"倫理（コード・公競規）","g":"実務教育（共通30問）","x":4,"c":69},{"k":"GL","n":"販売情報提供活動GL","g":"実務教育（共通30問）","x":4,"c":79},{"k":"MANNER","n":"マナー","g":"実務教育（共通30問）","x":2,"c":66},{"k":"SEIDO","n":"医療関連制度","g":"実務教育（共通30問）","x":5,"c":59},{"k":"PMS","n":"PMS","g":"実務教育（共通30問）","x":10,"c":245},{"k":"VEEVA","n":"Veeva","g":"実務教育（共通30問）","x":1,"c":40},{"k":"SS","n":"サムスカ・サムタス（SS/SI）","g":"製品（総合MR 70問）","x":4,"c":140},{"k":"ER","n":"エンレスト（ER）","g":"製品（総合MR 70問）","x":18,"c":433},{"k":"PU","n":"プレタール（PU）","g":"製品（総合MR 70問）","x":1,"c":27},{"k":"MZ","n":"モイゼルト（MZ）","g":"製品（総合MR 70問）","x":1,"c":64},{"k":"LK","n":"ルプキネス（LK）","g":"製品（総合MR 70問）","x":4,"c":76},{"k":"NX","n":"ネクセトール（NX）","g":"製品（総合MR 70問）","x":13,"c":161},{"k":"RX","n":"レキサルティ・エビリファイ（AB/RX）","g":"製品（総合MR 70問）","x":10,"c":241},{"k":"SL","n":"セリンクロ（SL）","g":"製品（総合MR 70問）","x":1,"c":57},{"k":"AJ","n":"アジョビ（AJ）","g":"製品（総合MR 70問）","x":1,"c":48},{"k":"NW","n":"ニュープロパッチ（NW）","g":"製品（総合MR 70問）","x":1,"c":50},{"k":"TC","n":"タケキャブ・キャブピリン（TC）","g":"製品（総合MR 70問）","x":13,"c":185},{"k":"MC","n":"ムコスタ（MC）","g":"製品（総合MR 70問）","x":1,"c":24},{"k":"LC","n":"エルカルチンFF（LC）","g":"製品（総合MR 70問）","x":1,"c":31},{"k":"IC","n":"アイクルシグ（IC）","g":"製品（総合MR 70問）","x":1,"c":23}];
+var INLINE=/*INLINE*/null/*END*/;
+var CRY={"salt":"XFcxvI7gdtuLZWA3RjIgww==","it":150000,"chk":"mfFXzQ/2EZI6TjdXu8MnEQ==.SKN7Y4r7btoKwJgi6Altgw=="},KEY=null;
+var cache={},rec={},pf={o:"r",f:"a",au:1},dy={d:"",n:0},S=null,T=null;
+function ld(k,d){try{return JSON.parse(localStorage.getItem(k))||d}catch(e){return d}}
+function sv(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
+rec=ld("tq-r",{});pf=ld("tq-p",pf);dy=ld("tq-d",dy);
+var A=document.getElementById("app"),B=document.getElementById("bar"),N=document.getElementById("nx");
+function e(s){return String(s==null?"":s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+function sh(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.random()*(i+1)|0,t=a[i];a[i]=a[j];a[j]=t}return a}
+function td(){return new Date().toDateString()}
+function tn(){return dy.d==td()?dy.n:0}
+function stp(q){return q.y&&q.y.length>=3}
+function wr(q){return rec[q.i]===0}
+function ins(q){return !q.r}
+function U(k){for(var i=0;i<UNITS.length;i++)if(UNITS[i].k==k)return UNITS[i]}
+// 単元の問題は必要になった時だけ読む
+function get(keys){
+  return Promise.all(keys.map(function(k){
+    if(cache[k])return cache[k];
+    if(INLINE)return cache[k]=INLINE[k];
+    return cache[k]=fetch("d/"+k+".txt").then(function(r){return r.text()}).then(dec).then(function(s){var a=JSON.parse(s);a.forEach(function(q){q.u=k});return cache[k]=a});
+  })).then(function(l){return [].concat.apply([],l)});
+}
+if(INLINE)for(var k in INLINE)INLINE[k].forEach(function(q){q.u=k});
+
+function home(){
+  S=null;clearTimeout(T);B.hidden=true;
+  var days=Math.ceil((new Date(2026,10,5)-new Date(td()))/864e5),h="";
+  h+='<div class="row"><h1>統一試験ドリル2026</h1><span class="sub">今日 <b>'+tn()+'</b>問'+(days>=0?'・本番まで <b>'+days+'</b>日':'')+'</span></div>';
+  h+='<button class="big" data-a="go">どんどん解く（全単元）</button>';
+  h+='<div class="two"><button data-a="mock">本番配分 30問</button><button data-a="wr">間違えた問題</button></div>';
+  h+='<div class="opt">'+ob("o","r","ランダム")+ob("o","s","資料順")+'｜'+ob("f","a","全部")+ob("f","t","定番")+ob("f","n","未回答")+'｜'+ob("au",1,"正解で自動次へ")+ob("au",0,"毎回解説")+'</div>';
+  var g="";
+  UNITS.forEach(function(u){
+    if(u.g!=g){g=u.g;h+='<h2>'+e(g)+'</h2>'}
+    h+='<button class="u" data-u="'+u.k+'"><span>'+e(u.n)+'</span><span>本番'+u.x+'問・'+u.c+'問</span></button>';
+  });
+  h+='<p class="sub">定番＝2019〜2025年に3回以上出題。成績はこの端末だけに保存。</p>';
+  A.innerHTML=h;scrollTo(0,0);
+}
+function ob(k,v,t){return '<button class="'+(pf[k]==v?"on":"")+'" data-k="'+k+'" data-v="'+v+'">'+t+'</button>'}
+
+A.onclick=function(ev){
+  var b=ev.target.closest("button");if(!b)return;var d=b.dataset;
+  if(d.k){pf[d.k]=d.k=="au"?+d.v:d.v;sv("tq-p",pf);home();return}
+  if(d.u){var u=U(d.u);get([d.u]).then(function(l){start(flt(l),u.n)});return}
+  if(d.a=="go"){get(UNITS.map(function(u){return u.k})).then(function(l){l=l.filter(ins);start(sh(l.filter(wr)).concat(sh(l.filter(function(q){return rec[q.i]==null})),sh(l.filter(function(q){return rec[q.i]===1}))),"どんどん解く")});return}
+  if(d.a=="mock"){get(UNITS.map(function(u){return u.k})).then(function(){var o=[];UNITS.forEach(function(u){o=o.concat(sh(cache[u.k].filter(ins)).slice(0,Math.max(1,Math.round(u.x/100*30))))});start(sh(o),"本番配分")});return}
+  if(d.a=="wr"){get(UNITS.map(function(u){return u.k})).then(function(l){start(sh(l.filter(wr)),"間違えた問題")});return}
+  if(d.a=="home")return home();
+  if(d.a=="end")return result();
+  if(d.a=="re")return start(sh(S.w),"間違えた問題");
+  if(d.v!=null&&S&&!S.done)return ans(+d.v,b);
+};
+function flt(l){if(pf.f=="t")l=l.filter(stp);if(pf.f=="n")l=l.filter(function(q){return rec[q.i]==null});return pf.o=="r"?sh(l):l}
+
+function start(l,t){
+  if(!l.length){A.innerHTML='<p>当てはまる問題がありません。</p><button data-a="home">戻る</button>';return}
+  S={l:l,t:t,i:0,ok:0,w:[],done:0};show();
+}
+function show(){
+  clearTimeout(T);B.hidden=true;S.done=0;
+  var q=S.l[S.i],n=S.ok+S.w.length,u=U(q.u),h="";
+  h+='<div class="row"><button data-a="'+(n?"end":"home")+'">'+(n?"終わる":"← 戻る")+'</button><span class="sub">'+S.ok+'○ '+S.w.length+'× ・'+(S.i+1)+'/'+S.l.length+'</span></div>';
+  h+='<div class="tag">'+e(u?u.n:"")+(q.p?' ・'+e(q.p):'')+(q.y&&q.y.length?' ・'+(stp(q)?'<span class="st">定番</span> ':'')+e(q.y.join("・"))+'出題':'')+'</div>';
+  h+='<p class="q">'+(q.t?"○か×か\n":"")+e(q.q)+'</p>';
+  if(q.t)h+='<div class="tf"><button data-v="1">○</button><button data-v="0">×</button></div>';
+  else{h+='<div class="ch">';for(var k=0;k<q.c.length;k++)h+='<button data-v="'+k+'">'+"abcdef"[k]+'. '+e(q.c[k])+'</button>';h+='</div>'}
+  h+='<div id="res"></div>';
+  A.innerHTML=h;scrollTo(0,0);
+}
+function ans(v,b){
+  var q=S.l[S.i],c=q.t?q.a:q.a,ok=v===c;S.done=1;
+  var bs=A.querySelectorAll("[data-v]");for(var i=0;i<bs.length;i++){bs[i].disabled=true;if(+bs[i].dataset.v===c)bs[i].className="right"}
+  if(!ok)b.className="wrong";
+  rec[q.i]=ok?1:0;sv("tq-r",rec);
+  if(dy.d!=td())dy={d:td(),n:0};dy.n++;sv("tq-d",dy);
+  if(ok)S.ok++;else S.w.push(q);
+  var at=q.t?(q.a?"○":"×"):"abcdef"[q.a]+". "+q.c[q.a];
+  document.getElementById("res").innerHTML='<div class="res '+(ok?"o":"x")+'"><b>'+(ok?"正解":"不正解")+'　正解は '+e(at)+'</b>'+e(q.e||"")+'</div>';
+  B.hidden=false;
+  if(ok&&pf.au){T=setTimeout(next,500);return}
+  document.getElementById("res").scrollIntoView({block:"nearest"});
+}
+function next(){clearTimeout(T);if(!S||!S.done)return;S.i++;S.i<S.l.length?show():result()}
+N.onclick=next;
+function result(){
+  clearTimeout(T);B.hidden=true;var n=S.ok+S.w.length,h="";
+  h+='<h1>'+S.ok+' / '+n+'</h1><p class="sub">'+e(S.t)+'・正答率 '+(n?Math.round(S.ok/n*100):0)+'%</p>';
+  h+='<div class="two">'+(S.w.length?'<button data-a="re">間違えた'+S.w.length+'問をもう一度</button>':'')+'<button data-a="home">一覧に戻る</button></div>';
+  S.w.forEach(function(q){h+='<div class="w">'+e(q.q)+'<br><b>'+(q.t?(q.a?"○":"×"):e(q.c[q.a]))+'</b> '+e(q.e||"")+'</div>'});
+  A.innerHTML=h;scrollTo(0,0);
+}
+document.onkeydown=function(ev){if(S&&S.done&&(ev.key=="Enter"||ev.key==" ")){ev.preventDefault();next()}};
+// 問題データは暗号化してあり、合言葉から作った鍵で端末内で戻す
+function b64(s){var b=atob(s),u=new Uint8Array(b.length);for(var i=0;i<b.length;i++)u[i]=b.charCodeAt(i);return u}
+function dec(t){var p=t.trim().split(".");return crypto.subtle.decrypt({name:"AES-CBC",iv:b64(p[0])},KEY,b64(p[1])).then(function(x){return new TextDecoder().decode(x)})}
+function useRaw(raw){return crypto.subtle.importKey("raw",raw,{name:"AES-CBC"},false,["decrypt"]).then(function(k){KEY=k;return dec(CRY.chk)}).then(function(s){if(s!=="ok")throw 0})}
+function derive(pw){
+  var te=new TextEncoder();
+  return crypto.subtle.importKey("raw",te.encode(pw),"PBKDF2",false,["deriveBits"])
+   .then(function(k){return crypto.subtle.deriveBits({name:"PBKDF2",salt:b64(CRY.salt),iterations:CRY.it,hash:"SHA-256"},k,256)})
+   .then(function(bits){var raw=new Uint8Array(bits);return useRaw(raw).then(function(){var s="";raw.forEach(function(c){s+=String.fromCharCode(c)});sv("tq-k",btoa(s))})});
+}
+function lock(msg){
+  A.innerHTML='<h1>統一試験ドリル2026</h1><p class="sub">合言葉を入れてください（この端末では次から不要）。</p><form id="pf"><input id="pw" type="password" autocomplete="current-password" style="font:inherit;width:100%;padding:10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--fg)"><button class="big" type="submit">開く</button></form><p class="sub" id="pm">'+(msg||"")+'</p>';
+  document.getElementById("pf").onsubmit=function(ev){ev.preventDefault();document.getElementById("pm").textContent="確認中…";derive(document.getElementById("pw").value.trim()).then(home,function(){lock("合言葉が違います。")})};
+}
+if(!CRY||INLINE)home();
+else{var sk=ld("tq-k","");if(sk)useRaw(b64(sk)).then(home,function(){lock()});else lock()}
+</script>
+</body>
+</html>
