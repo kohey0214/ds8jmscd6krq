@@ -45,9 +45,9 @@ h2{font-size:.8rem;color:var(--sub);margin:18px 0 4px;font-weight:700}
 <main id="app"><p class="sub">読み込み中…</p></main>
 <div class="bar" id="bar" hidden><button id="nx" type="button">次へ（画面のどこをタップしても進みます）</button></div>
 <script>
-var UNITS=[{"k":"VISION","n":"医薬営業本部ビジョン","g":"実務教育（共通30問）","x":1,"c":14},{"k":"NINTEI","n":"MR認定制度","g":"実務教育（共通30問）","x":1,"c":29},{"k":"OPSS","n":"OPSS/PCS","g":"実務教育（共通30問）","x":2,"c":68},{"k":"RINRI","n":"倫理（コード・公競規）","g":"実務教育（共通30問）","x":4,"c":69},{"k":"GL","n":"販売情報提供活動GL","g":"実務教育（共通30問）","x":4,"c":79},{"k":"MANNER","n":"マナー","g":"実務教育（共通30問）","x":2,"c":66},{"k":"SEIDO","n":"医療関連制度","g":"実務教育（共通30問）","x":5,"c":59},{"k":"PMS","n":"PMS","g":"実務教育（共通30問）","x":10,"c":245},{"k":"VEEVA","n":"Veeva","g":"実務教育（共通30問）","x":1,"c":40},{"k":"SS","n":"サムスカ・サムタス（SS/SI）","g":"製品（総合MR 70問）","x":4,"c":140},{"k":"ER","n":"エンレスト（ER）","g":"製品（総合MR 70問）","x":18,"c":433},{"k":"PU","n":"プレタール（PU）","g":"製品（総合MR 70問）","x":1,"c":27},{"k":"MZ","n":"モイゼルト（MZ）","g":"製品（総合MR 70問）","x":1,"c":64},{"k":"LK","n":"ルプキネス（LK）","g":"製品（総合MR 70問）","x":4,"c":76},{"k":"NX","n":"ネクセトール（NX）","g":"製品（総合MR 70問）","x":13,"c":161},{"k":"RX","n":"レキサルティ・エビリファイ（AB/RX）","g":"製品（総合MR 70問）","x":10,"c":241},{"k":"SL","n":"セリンクロ（SL）","g":"製品（総合MR 70問）","x":1,"c":57},{"k":"AJ","n":"アジョビ（AJ）","g":"製品（総合MR 70問）","x":1,"c":48},{"k":"NW","n":"ニュープロパッチ（NW）","g":"製品（総合MR 70問）","x":1,"c":50},{"k":"TC","n":"タケキャブ・キャブピリン（TC）","g":"製品（総合MR 70問）","x":13,"c":185},{"k":"MC","n":"ムコスタ（MC）","g":"製品（総合MR 70問）","x":1,"c":24},{"k":"LC","n":"エルカルチンFF（LC）","g":"製品（総合MR 70問）","x":1,"c":31},{"k":"IC","n":"アイクルシグ（IC）","g":"製品（総合MR 70問）","x":1,"c":23}];
+var UNITS=[{"k":"VISION","n":"医薬営業本部ビジョン","g":"実務教育（共通30問）","x":1,"c":2},{"k":"NINTEI","n":"MR認定制度","g":"実務教育（共通30問）","x":1,"c":5},{"k":"OPSS","n":"OPSS/PCS","g":"実務教育（共通30問）","x":2,"c":25},{"k":"RINRI","n":"倫理（コード・公競規）","g":"実務教育（共通30問）","x":4,"c":14},{"k":"GL","n":"販売情報提供活動GL","g":"実務教育（共通30問）","x":4,"c":51},{"k":"MANNER","n":"マナー","g":"実務教育（共通30問）","x":2,"c":66},{"k":"SEIDO","n":"医療関連制度","g":"実務教育（共通30問）","x":5,"c":19},{"k":"PMS","n":"PMS","g":"実務教育（共通30問）","x":10,"c":139},{"k":"VEEVA","n":"Veeva","g":"実務教育（共通30問）","x":1,"c":14},{"k":"SS","n":"サムスカ・サムタス（SS/SI）","g":"製品（総合MR 70問）","x":4,"c":91},{"k":"ER","n":"エンレスト（ER）","g":"製品（総合MR 70問）","x":18,"c":166},{"k":"PU","n":"プレタール（PU）","g":"製品（総合MR 70問）","x":1,"c":15},{"k":"MZ","n":"モイゼルト（MZ）","g":"製品（総合MR 70問）","x":1,"c":46},{"k":"LK","n":"ルプキネス（LK）","g":"製品（総合MR 70問）","x":4,"c":18},{"k":"NX","n":"ネクセトール（NX）","g":"製品（総合MR 70問）","x":13,"c":17},{"k":"RX","n":"レキサルティ・エビリファイ（AB/RX）","g":"製品（総合MR 70問）","x":10,"c":91},{"k":"SL","n":"セリンクロ（SL）","g":"製品（総合MR 70問）","x":1,"c":30},{"k":"AJ","n":"アジョビ（AJ）","g":"製品（総合MR 70問）","x":1,"c":16},{"k":"NW","n":"ニュープロパッチ（NW）","g":"製品（総合MR 70問）","x":1,"c":15},{"k":"TC","n":"タケキャブ・キャブピリン（TC）","g":"製品（総合MR 70問）","x":13,"c":121},{"k":"MC","n":"ムコスタ（MC）","g":"製品（総合MR 70問）","x":1,"c":14},{"k":"LC","n":"エルカルチンFF（LC）","g":"製品（総合MR 70問）","x":1,"c":21},{"k":"IC","n":"アイクルシグ（IC）","g":"製品（総合MR 70問）","x":1,"c":15}];
 var INLINE=/*INLINE*/null/*END*/;
-var CRY={"salt":"XFcxvI7gdtuLZWA3RjIgww==","it":150000,"chk":"mfFXzQ/2EZI6TjdXu8MnEQ==.SKN7Y4r7btoKwJgi6Altgw=="},KEY=null;
+var CRY={"salt":"XFcxvI7gdtuLZWA3RjIgww==","it":150000,"chk":"7piOC0b6w3iVwiYLeB0lmQ==.86t6CghaPD4Y1VbSKf1gBA=="},KEY=null;
 var cache={},rec={},pf={o:"r",f:"a",au:1},dy={d:"",n:0},S=null,T=null;
 function ld(k,d){try{return JSON.parse(localStorage.getItem(k))||d}catch(e){return d}}
 function sv(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
@@ -83,7 +83,7 @@ function home(){
     if(u.g!=g){g=u.g;h+='<h2>'+e(g)+'</h2>'}
     h+='<button class="u" data-u="'+u.k+'"><span>'+e(u.n)+'</span><span>本番'+u.x+'問・'+u.c+'問</span></button>';
   });
-  h+='<p class="sub">定番＝2019〜2025年に3回以上出題。成績はこの端末だけに保存。</p>';
+  h+='<p class="sub">収録は実際に出た問題だけ（統一試験の過去問・実務教育の確認問題・Oh-Campus確認問題）。定番＝2019〜2025年に3回以上出題。成績はこの端末だけに保存。</p>';
   A.innerHTML=h;scrollTo(0,0);
 }
 function ob(k,v,t){return '<button class="'+(pf[k]==v?"on":"")+'" data-k="'+k+'" data-v="'+v+'">'+t+'</button>'}
@@ -112,7 +112,7 @@ function show(){
   clearTimeout(T);B.hidden=true;S.done=0;
   var q=S.l[S.i],n=S.ok+S.w.length,u=U(q.u),h="";
   h+='<div class="row"><button data-a="'+(n?"end":"home")+'">'+(n?"終わる":"← 戻る")+'</button><span class="sub">'+S.ok+'○ '+S.w.length+'× ・'+(S.i+1)+'/'+S.l.length+'</span></div>';
-  h+='<div class="tag">'+e(u?u.n:"")+(q.p?' ・'+e(q.p):'')+(q.y&&q.y.length?' ・'+(stp(q)?'<span class="st">定番</span> ':'')+e(q.y.join("・"))+'出題':'')+'</div>';
+  h+='<div class="tag">'+e(u?u.n:"")+' ・'+e(q.s=="過去問"?"過去問":q.s=="確認問題"?"実務教育 確認問題":"Oh-Campus確認問題")+(q.p?' ・'+e(q.p):'')+(q.y&&q.y.length?' ・'+(stp(q)?'<span class="st">定番</span> ':'')+e(q.y.join("・"))+'出題':'')+'</div>';
   h+='<p class="q">'+(q.t?"○か×か\n":"")+e(q.q)+'</p>';
   if(q.t)h+='<div class="tf"><button data-v="1">○</button><button data-v="0">×</button></div>';
   else{h+='<div class="ch">';for(var k=0;k<q.c.length;k++)h+='<button data-v="'+k+'">'+"abcdef"[k]+'. '+e(q.c[k])+'</button>';h+='</div>'}
