@@ -49,7 +49,7 @@ h2{font-size:.8rem;color:var(--sub);margin:18px 0 4px;font-weight:700}
 <script>
 var UNITS=[{"k":"VISION","n":"医薬営業本部ビジョン","g":"実務教育（共通30問）","x":1,"c":2},{"k":"NINTEI","n":"MR認定制度","g":"実務教育（共通30問）","x":1,"c":5},{"k":"OPSS","n":"OPSS/PCS","g":"実務教育（共通30問）","x":2,"c":34},{"k":"RINRI","n":"倫理（コード・公競規）","g":"実務教育（共通30問）","x":4,"c":14},{"k":"GL","n":"販売情報提供活動GL","g":"実務教育（共通30問）","x":4,"c":54},{"k":"MANNER","n":"マナー","g":"実務教育（共通30問）","x":2,"c":67},{"k":"SEIDO","n":"医療関連制度","g":"実務教育（共通30問）","x":5,"c":13},{"k":"PMS","n":"PMS","g":"実務教育（共通30問）","x":10,"c":159},{"k":"VEEVA","n":"Veeva","g":"実務教育（共通30問）","x":1,"c":6},{"k":"SS","n":"サムスカ・サムタス（SS/SI）","g":"製品（総合MR 70問）","x":4,"c":103},{"k":"ER","n":"エンレスト（ER）","g":"製品（総合MR 70問）","x":18,"c":208},{"k":"PU","n":"プレタール（PU）","g":"製品（総合MR 70問）","x":1,"c":17},{"k":"MZ","n":"モイゼルト（MZ）","g":"製品（総合MR 70問）","x":1,"c":21},{"k":"LK","n":"ルプキネス（LK）","g":"製品（総合MR 70問）","x":4,"c":10},{"k":"NX","n":"ネクセトール（NX）","g":"製品（総合MR 70問）","x":13,"c":26},{"k":"RX","n":"レキサルティ・エビリファイ（AB/RX）","g":"製品（総合MR 70問）","x":10,"c":105},{"k":"SL","n":"セリンクロ（SL）","g":"製品（総合MR 70問）","x":1,"c":29},{"k":"AJ","n":"アジョビ（AJ）","g":"製品（総合MR 70問）","x":1,"c":10},{"k":"NW","n":"ニュープロパッチ（NW）","g":"製品（総合MR 70問）","x":1,"c":16},{"k":"TC","n":"タケキャブ・キャブピリン（TC）","g":"製品（総合MR 70問）","x":13,"c":162},{"k":"MC","n":"ムコスタ（MC）","g":"製品（総合MR 70問）","x":1,"c":14},{"k":"LC","n":"エルカルチンFF（LC）","g":"製品（総合MR 70問）","x":1,"c":21},{"k":"IC","n":"アイクルシグ（IC）","g":"製品（総合MR 70問）","x":1,"c":7},{"k":"NXY","n":"ネクセトール（NX）予想問題","g":"予想問題（テキストから作成）","x":13,"c":77},{"k":"SEIDOY","n":"医療関連制度 予想問題","g":"予想問題（テキストから作成）","x":5,"c":33}];
 var INLINE=/*INLINE*/null/*END*/;
-var CRY={"salt":"XFcxvI7gdtuLZWA3RjIgww==","it":150000,"chk":"4D0f/V9zw9gZB63MCN4Kkw==.Z61t4G1n/ugPs0lVLTd87Q=="},KEY=null,VER="20261030113706";
+var CRY={"salt":"XFcxvI7gdtuLZWA3RjIgww==","it":150000,"chk":"o0N1E1NkE4dxp3pMnOlsJQ==.euk7+RswC4on/VrVVOaz+g=="},KEY=null,VER="20261030113951";
 var cache={},rec={},pf={o:"r",f:"a",au:1},dy={d:"",n:0},S=null,T=null;
 function ld(k,d){try{return JSON.parse(localStorage.getItem(k))||d}catch(e){return d}}
 function sv(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
@@ -226,6 +226,8 @@ function vlisten(){
   V.rec=r;try{r.start();if(!V.speaking){beep();vstat(S.done?"🎤「次」「もう一回」":"🎤 回答をどうぞ")}}catch(x){}
 }
 var NUM={"1":1,"一":1,"いち":1,"イチ":1,"2":2,"二":2,"に":2,"ニ":2,"3":3,"三":3,"さん":3,"サン":3,"4":4,"四":4,"よん":4,"ヨン":4,"し":4,"5":5,"五":5,"ご":5,"ゴ":5,"6":6,"六":6,"ろく":6,"ロク":6};
+// 表記ゆれをそろえて、読み上げ中の文の声を拾っただけかを見分ける
+function cn(s){return s.replace(/丸|マル|○|〇|◯/g,"まる").replace(/バツ|罰|×|✕/g,"ばつ").replace(/ツギ|つぎ/g,"次")}
 function nz(s){return String(s||"").replace(/[０-９Ａ-Ｚａ-ｚ]/g,function(c){return String.fromCharCode(c.charCodeAt(0)-65248)}).replace(/[\s。、．.,，！!？?ー〜]/g,"").toLowerCase()}
 // 聞き取った言葉→する操作。読み上げ中は、スピーカーの声を拾った誤反応を防ぐため、
 // 確定した短い言葉で、いま読んでいる文に含まれないものだけ受け付ける（選択肢の番号は読み終わってから）
@@ -233,7 +235,8 @@ function vmatch(alts,fin){
   var q=S&&S.l[S.i];if(!q)return null;
   for(var k=0;k<alts.length;k++){
     var s=nz(alts[k]);if(!s)continue;
-    if(V.speaking&&(!fin||s.length>6||nz(rd((V.prev||"")+(V.cur||""))).indexOf(s)>=0))continue;
+    // 読み上げ中でも「まる」「ばつ」「次」だけの言葉は確定を待たずにすぐ反応する（確定まで約1秒かかるため）
+    if(V.speaking&&(s.length>6||cn(nz(rd((V.prev||"")+(V.cur||"")))).indexOf(cn(s))>=0||!fin&&!/^(まる|マル|丸|○|〇|◯|ばつ|バツ|罰|×|✕|次|つぎ|ツギ|ネクスト)$/.test(s)))continue;
     if(/もう一?[回度]|もう1回|繰り返|リピート/.test(s))return vagain;
     if(/終わり|終了|ストップ|やめ/.test(s))return function(){vstop();result()};
     if(S.done){if(/次|つぎ|ツギ|ネクスト|進む|スキップ|next|オッケー|ok/.test(s))return next;continue}
