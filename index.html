@@ -49,7 +49,7 @@ h2{font-size:.8rem;color:var(--sub);margin:18px 0 4px;font-weight:700}
 <script>
 var UNITS=[{"k":"VISION","n":"医薬営業本部ビジョン","g":"実務教育（共通30問）","x":1,"c":2},{"k":"NINTEI","n":"MR認定制度","g":"実務教育（共通30問）","x":1,"c":5},{"k":"OPSS","n":"OPSS/PCS","g":"実務教育（共通30問）","x":2,"c":34},{"k":"RINRI","n":"倫理（コード・公競規）","g":"実務教育（共通30問）","x":4,"c":14},{"k":"GL","n":"販売情報提供活動GL","g":"実務教育（共通30問）","x":4,"c":54},{"k":"MANNER","n":"マナー","g":"実務教育（共通30問）","x":2,"c":67},{"k":"SEIDO","n":"医療関連制度","g":"実務教育（共通30問）","x":5,"c":13},{"k":"PMS","n":"PMS","g":"実務教育（共通30問）","x":10,"c":159},{"k":"VEEVA","n":"Veeva","g":"実務教育（共通30問）","x":1,"c":6},{"k":"SS","n":"サムスカ・サムタス（SS/SI）","g":"製品（総合MR 70問）","x":4,"c":103},{"k":"ER","n":"エンレスト（ER）","g":"製品（総合MR 70問）","x":18,"c":208},{"k":"PU","n":"プレタール（PU）","g":"製品（総合MR 70問）","x":1,"c":17},{"k":"MZ","n":"モイゼルト（MZ）","g":"製品（総合MR 70問）","x":1,"c":21},{"k":"LK","n":"ルプキネス（LK）","g":"製品（総合MR 70問）","x":4,"c":10},{"k":"NX","n":"ネクセトール（NX）","g":"製品（総合MR 70問）","x":13,"c":26},{"k":"RX","n":"レキサルティ・エビリファイ（AB/RX）","g":"製品（総合MR 70問）","x":10,"c":105},{"k":"SL","n":"セリンクロ（SL）","g":"製品（総合MR 70問）","x":1,"c":29},{"k":"AJ","n":"アジョビ（AJ）","g":"製品（総合MR 70問）","x":1,"c":10},{"k":"NW","n":"ニュープロパッチ（NW）","g":"製品（総合MR 70問）","x":1,"c":16},{"k":"TC","n":"タケキャブ・キャブピリン（TC）","g":"製品（総合MR 70問）","x":13,"c":162},{"k":"MC","n":"ムコスタ（MC）","g":"製品（総合MR 70問）","x":1,"c":14},{"k":"LC","n":"エルカルチンFF（LC）","g":"製品（総合MR 70問）","x":1,"c":21},{"k":"IC","n":"アイクルシグ（IC）","g":"製品（総合MR 70問）","x":1,"c":7},{"k":"NXY","n":"ネクセトール（NX）予想問題","g":"予想問題（テキストから作成）","x":13,"c":77},{"k":"SEIDOY","n":"医療関連制度 予想問題","g":"予想問題（テキストから作成）","x":5,"c":33}];
 var INLINE=/*INLINE*/null/*END*/;
-var CRY={"salt":"XFcxvI7gdtuLZWA3RjIgww==","it":150000,"chk":"/NCn6cMRJtAE5GiPLvz0DA==.gGAFHokFl1lCjU0EnKMoXQ=="},KEY=null,VER="20261030112305";
+var CRY={"salt":"XFcxvI7gdtuLZWA3RjIgww==","it":150000,"chk":"4D0f/V9zw9gZB63MCN4Kkw==.Z61t4G1n/ugPs0lVLTd87Q=="},KEY=null,VER="20261030113706";
 var cache={},rec={},pf={o:"r",f:"a",au:1},dy={d:"",n:0},S=null,T=null;
 function ld(k,d){try{return JSON.parse(localStorage.getItem(k))||d}catch(e){return d}}
 function sv(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
@@ -172,7 +172,9 @@ function result(){
 // 音声モード：端末の読み上げと音声認識だけを使う（問題文を外部のサービスに送らない）
 var SR=window.SpeechRecognition||window.webkitSpeechRecognition,V={tok:0,rec:null,res:"",ul:0,wl:null};
 function vstat(s){var x=document.getElementById("vs");if(x)x.textContent=s}
-function vunlock(){if(V.ul||!window.speechSynthesis)return;V.ul=1;var u=new SpeechSynthesisUtterance(" ");u.volume=0;speechSynthesis.speak(u)}
+function vunlock(){if(V.ul||!window.speechSynthesis)return;V.ul=1;var u=new SpeechSynthesisUtterance(" ");u.volume=0;speechSynthesis.speak(u);try{V.ac=new (window.AudioContext||window.webkitAudioContext)();V.ac.resume()}catch(x){}}
+// 読み終わって回答を待つ合図の「ピッ」
+function beep(){try{var o=V.ac.createOscillator(),g=V.ac.createGain();o.frequency.value=880;g.gain.value=.12;o.connect(g);g.connect(V.ac.destination);o.start();o.stop(V.ac.currentTime+.12)}catch(x){}}
 function vwake(){try{if(navigator.wakeLock&&!V.wl)navigator.wakeLock.request("screen").then(function(l){V.wl=l;l.onrelease=function(){V.wl=null}},function(){})}catch(x){}}
 document.addEventListener("visibilitychange",function(){if(!document.hidden&&pf.vo=="1"&&S)vwake()});
 // 記号や空欄を読み上げやすい言葉にする
@@ -184,16 +186,19 @@ function rd(s){
 }
 function say(t,cb){
   if(!window.speechSynthesis){cb&&cb();return}
-  vstop(1);var tok=++V.tok,parts=rd(t).match(/[^。！？]+[。！？]?/g)||[""],i=0;vstat("🔊 読み上げ中");
+  vstop(1);var tok=++V.tok,parts=rd(t).match(/[^。！？]+[。！？]?/g)||[""],i=0;vstat("🔊 読み上げ中（割り込みOK）");
+  // 読み上げ中も聞いておき、「まる」「次」などの割り込みに応える
+  V.speaking=1;if(S&&pf.vo=="1")vlisten();
   // 長い文は区切って読む（長い1文だと途中で止まる端末がある）。終わりの合図が来ない端末向けに時間でも次へ進む
   (function go(){
     if(tok!=V.tok)return;
-    if(i>=parts.length){vstat("");cb&&cb();return}
+    if(i>=parts.length){V.speaking=0;V.cur=V.prev="";vstat("");cb&&cb();return}
+    V.prev=V.cur;V.cur=parts[i];
     var u=new SpeechSynthesisUtterance(parts[i++]),done=0,f=function(){if(done)return;done=1;clearTimeout(w);go()},w=setTimeout(f,(u.text.length*0.2/(+pf.vr||1.25)+3)*1000);
     u.lang="ja-JP";u.rate=+pf.vr||1.25;u.onend=f;u.onerror=f;speechSynthesis.speak(u);
   })();
 }
-function vstop(keep){V.tok++;if(window.speechSynthesis)speechSynthesis.cancel();if(V.rec){try{V.rec.abort()}catch(x){}V.rec=null}if(!keep)vstat("")}
+function vstop(keep){V.tok++;V.speaking=0;if(window.speechSynthesis)speechSynthesis.cancel();if(V.rec){try{V.rec.abort()}catch(x){}V.rec=null}if(!keep)vstat("")}
 function vstart(){vwake();say("音声モードです。問題を選んでください。");if(SR){try{var r=new SR();r.lang="ja-JP";r.onresult=r.onerror=function(){};r.start();setTimeout(function(){try{r.stop()}catch(x){}},1500)}catch(x){}}}
 // 問題を読む。同じ文の穴埋めが続くときは、2問目からは空欄と選択肢だけ読む
 function vq(full){
@@ -202,33 +207,51 @@ function vq(full){
   say(t,vlisten);
 }
 function vagain(){if(!S)return;if(S.done)say(V.res,vlisten);else vq(true)}
+// 聞き続けて（continuous）、途中の聞き取り結果でも答えが分かった時点で反応する
 function vlisten(){
   if(!SR||pf.vo!="1"||!S){vstat(SR?"":"回答はタップしてください");return}
-  var tok=V.tok,r=new SR(),got=0;r.lang="ja-JP";r.interimResults=false;r.maxAlternatives=5;
-  r.onresult=function(ev){got=1;var a=[];for(var k=0;k<ev.results[0].length;k++)a.push(ev.results[0][k].transcript);hear(a)};
+  if(V.rec){if(!V.speaking){beep();vstat(S.done?"🎤「次」「もう一回」":"🎤 回答をどうぞ")}return}
+  var tok=V.tok,r=new SR(),got=0;r.lang="ja-JP";r.interimResults=true;r.continuous=true;r.maxAlternatives=5;
+  r.onresult=function(ev){
+    if(got||tok!=V.tok)return;
+    for(var i=ev.resultIndex;i<ev.results.length;i++){
+      var res=ev.results[i],a=[];for(var k=0;k<res.length;k++)a.push(res[k].transcript);
+      var f=vmatch(a,res.isFinal);
+      if(f){got=1;f();return}
+      if(res.isFinal&&!V.speaking&&nz(a[0])){V.miss=(V.miss||0)+1;vstat("🎤 聞き取り：「"+a[0]+"」もう一度どうぞ");if(V.miss>=3){V.miss=0;got=1;say(S.done?"次、または、もう一回":(S.l[S.i].t?"まる、か、ばつ":"番号で答えてください"),vlisten)}}
+    }
+  };
   r.onerror=function(ev){if(ev.error=="not-allowed"||ev.error=="service-not-allowed"){got=1;vstat("マイクが使えません。回答はタップしてください")}};
-  r.onend=function(){if(V.rec===r)V.rec=null;if(!got&&tok==V.tok&&pf.vo=="1"&&S)setTimeout(function(){if(tok==V.tok)vlisten()},250)};
-  V.rec=r;try{r.start();vstat(S.done?"🎤「次」「もう一回」":"🎤 回答をどうぞ")}catch(x){}
+  r.onend=function(){if(V.rec===r)V.rec=null;if(!got&&tok==V.tok&&pf.vo=="1"&&S)setTimeout(function(){if(tok==V.tok&&!V.rec)vlisten()},150)};
+  V.rec=r;try{r.start();if(!V.speaking){beep();vstat(S.done?"🎤「次」「もう一回」":"🎤 回答をどうぞ")}}catch(x){}
 }
 var NUM={"1":1,"一":1,"いち":1,"イチ":1,"2":2,"二":2,"に":2,"ニ":2,"3":3,"三":3,"さん":3,"サン":3,"4":4,"四":4,"よん":4,"ヨン":4,"し":4,"5":5,"五":5,"ご":5,"ゴ":5,"6":6,"六":6,"ろく":6,"ロク":6};
-function hear(alts){
-  var q=S&&S.l[S.i];if(!q)return;
+function nz(s){return String(s||"").replace(/[０-９Ａ-Ｚａ-ｚ]/g,function(c){return String.fromCharCode(c.charCodeAt(0)-65248)}).replace(/[\s。、．.,，！!？?ー〜]/g,"").toLowerCase()}
+// 聞き取った言葉→する操作。読み上げ中は、スピーカーの声を拾った誤反応を防ぐため、
+// 確定した短い言葉で、いま読んでいる文に含まれないものだけ受け付ける（選択肢の番号は読み終わってから）
+function vmatch(alts,fin){
+  var q=S&&S.l[S.i];if(!q)return null;
   for(var k=0;k<alts.length;k++){
-    var s=alts[k].replace(/[０-９]/g,function(c){return String.fromCharCode(c.charCodeAt(0)-65248)}).replace(/[\s。、．.！!？?]/g,"");
-    if(/もう一?[回度]|もう1回|繰り返|リピート/.test(s))return vagain();
-    if(/終わり|終了|ストップ|やめ/.test(s)){vstop();return result()}
-    if(S.done){if(/^(次|つぎ|ツギ|ネクスト|次へ|進む|next)/i.test(s))return next();continue}
+    var s=nz(alts[k]);if(!s)continue;
+    if(V.speaking&&(!fin||s.length>6||nz(rd((V.prev||"")+(V.cur||""))).indexOf(s)>=0))continue;
+    if(/もう一?[回度]|もう1回|繰り返|リピート/.test(s))return vagain;
+    if(/終わり|終了|ストップ|やめ/.test(s))return function(){vstop();result()};
+    if(S.done){if(/次|つぎ|ツギ|ネクスト|進む|スキップ|next|オッケー|ok/.test(s))return next;continue}
     var v=null;
-    if(q.t){if(/^(まる|マル|丸|○|〇|正しい|はい)/.test(s))v=1;else if(/^(ばつ|バツ|罰|抜|伐|×|ペケ|違う|誤り|いいえ)/.test(s))v=0}
-    else{
-      var m=s.replace(/^(答えは)/,"").replace(/(番|ばん|バン|です)+$/,"");
-      var n=NUM[m];if(n&&n<=q.c.length)v=S.ord[n-1];
-      else for(var j=0;j<q.c.length;j++)if(s==q.c[j].replace(/[\s・、]/g,""))v=j;
+    if(q.t){
+      if(/ばつ|バツ|罰|×|✕|ペケ|違う|ちがう|誤り|間違|いいえ|ノー|伐|抜|正しくない|^no$|^2$|^に$|^二$/.test(s))v=0;
+      else if(/まる|マル|丸|○|〇|◯|^円$|正しい|正解|合って|あって|はい|イエス|^yes$|^1$|^いち$|^一$/.test(s))v=1;
+    }else if(!V.speaking){
+      var m=s.replace(/^答えは/,"").replace(/(番|ばん|バン|です)+$/,""),n=NUM[m];
+      if(n&&n<=q.c.length)v=S.ord[n-1];
+      else for(var j=0;j<q.c.length;j++)if(s==nz(q.c[j]).replace(/・/g,""))v=j;
     }
-    if(v!=null){vstop(1);return ans(v,A.querySelector('[data-v="'+v+'"]'))}
+    if(v!=null)return (function(v){return function(){vstop(1);V.miss=0;ans(v,A.querySelector('[data-v="'+v+'"]'))}})(v);
   }
-  say(S.done?"次、または、もう一回、と言ってください":"もう一度どうぞ",vlisten);
+  return null;
 }
+// 聞き取り結果を直接渡して試す用（確定結果として扱う）
+function hear(alts){var f=vmatch(alts,true);if(f)return f();say(S.done?"次、または、もう一回、と言ってください":"もう一度どうぞ",vlisten)}
 document.onkeydown=function(ev){if(S&&S.done&&(ev.key=="Enter"||ev.key==" ")){ev.preventDefault();next()}};
 // 問題データは暗号化してあり、合言葉から作った鍵で端末内で戻す
 function b64(s){var b=atob(s),u=new Uint8Array(b.length);for(var i=0;i<b.length;i++)u[i]=b.charCodeAt(i);return u}
