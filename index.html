@@ -42,6 +42,8 @@ h2{font-size:.8rem;color:var(--sub);margin:18px 0 4px;font-weight:700}
 .zz{display:flex;justify-content:space-between;align-items:center;width:100%;margin:12px 0 0;border:2px solid var(--ng);color:var(--ng);font-weight:700;font-size:1.1rem;padding:12px 14px;text-align:left}
 .zz span{font-size:.8rem;font-weight:400}
 .big.zr{background:var(--ng);border-color:var(--ng)}
+.big.zu{background:var(--bg);border:2px solid var(--ng);color:var(--ng)}
+.big.zu span{font-weight:400;font-size:.85rem}
 .vo{display:flex;align-items:center;gap:6px;margin:6px 0;font-size:.85rem;color:var(--ac)}
 .vo span{flex:1}.vo button{padding:4px 10px;font-size:.8rem;border-radius:99px}
 </style>
@@ -52,7 +54,7 @@ h2{font-size:.8rem;color:var(--sub);margin:18px 0 4px;font-weight:700}
 <script>
 var UNITS=[{"k":"VISION","n":"医薬営業本部ビジョン","g":"実務教育（共通30問）","x":1,"c":2},{"k":"NINTEI","n":"MR認定制度","g":"実務教育（共通30問）","x":1,"c":5},{"k":"OPSS","n":"OPSS/PCS","g":"実務教育（共通30問）","x":2,"c":34},{"k":"RINRI","n":"倫理（コード・公競規）","g":"実務教育（共通30問）","x":4,"c":14},{"k":"GL","n":"販売情報提供活動GL","g":"実務教育（共通30問）","x":4,"c":54},{"k":"MANNER","n":"マナー","g":"実務教育（共通30問）","x":2,"c":67},{"k":"SEIDO","n":"医療関連制度","g":"実務教育（共通30問）","x":5,"c":13},{"k":"PMS","n":"PMS","g":"実務教育（共通30問）","x":10,"c":159},{"k":"VEEVA","n":"Veeva","g":"実務教育（共通30問）","x":1,"c":6},{"k":"SS","n":"サムスカ・サムタス（SS/SI）","g":"製品（総合MR 70問）","x":4,"c":103},{"k":"ER","n":"エンレスト（ER）","g":"製品（総合MR 70問）","x":18,"c":208},{"k":"PU","n":"プレタール（PU）","g":"製品（総合MR 70問）","x":1,"c":17},{"k":"MZ","n":"モイゼルト（MZ）","g":"製品（総合MR 70問）","x":1,"c":21},{"k":"LK","n":"ルプキネス（LK）","g":"製品（総合MR 70問）","x":4,"c":10},{"k":"NX","n":"ネクセトール（NX）","g":"製品（総合MR 70問）","x":13,"c":26},{"k":"RX","n":"レキサルティ・エビリファイ（AB/RX）","g":"製品（総合MR 70問）","x":10,"c":105},{"k":"SL","n":"セリンクロ（SL）","g":"製品（総合MR 70問）","x":1,"c":29},{"k":"AJ","n":"アジョビ（AJ）","g":"製品（総合MR 70問）","x":1,"c":10},{"k":"NW","n":"ニュープロパッチ（NW）","g":"製品（総合MR 70問）","x":1,"c":16},{"k":"TC","n":"タケキャブ・キャブピリン（TC）","g":"製品（総合MR 70問）","x":13,"c":162},{"k":"MC","n":"ムコスタ（MC）","g":"製品（総合MR 70問）","x":1,"c":14},{"k":"LC","n":"エルカルチンFF（LC）","g":"製品（総合MR 70問）","x":1,"c":21},{"k":"IC","n":"アイクルシグ（IC）","g":"製品（総合MR 70問）","x":1,"c":7},{"k":"NXY","n":"ネクセトール（NX）予想問題","g":"予想問題（テキストから作成）","x":13,"c":77},{"k":"SEIDOY","n":"医療関連制度 予想問題","g":"予想問題（テキストから作成）","x":5,"c":33},{"k":"Z_PMS","n":"PMS 直前","g":"直前対策","x":10,"c":66,"z":1},{"k":"Z_ER","n":"エンレスト（ER） 直前","g":"直前対策","x":18,"c":75,"z":1},{"k":"Z_NX","n":"ネクセトール（NX） 直前","g":"直前対策","x":13,"c":103,"z":1},{"k":"Z_STATIN","n":"スタチン基礎（NX関連） 直前","g":"直前対策","x":13,"c":18,"z":1},{"k":"Z_TC","n":"タケキャブ・キャブピリン（TC） 直前","g":"直前対策","x":13,"c":42,"z":1},{"k":"Z_RX","n":"レキサルティ・エビリファイ（AB/RX） 直前","g":"直前対策","x":10,"c":61,"z":1},{"k":"Z_AB","n":"エビリファイ 適応・用法 直前","g":"直前対策","x":10,"c":17,"z":1},{"k":"Z_SS","n":"サムスカ・サムタス（SS/SI） 直前","g":"直前対策","x":4,"c":25,"z":1},{"k":"Z_LK","n":"ルプキネス（LK） 直前","g":"直前対策","x":4,"c":19,"z":1},{"k":"Z_PU","n":"プレタール（PU） 直前","g":"直前対策","x":1,"c":11,"z":1},{"k":"Z_MC","n":"ムコスタ（MC） 直前","g":"直前対策","x":1,"c":11,"z":1},{"k":"Z_MZ","n":"モイゼルト（MZ） 直前","g":"直前対策","x":1,"c":12,"z":1},{"k":"Z_SL","n":"セリンクロ（SL） 直前","g":"直前対策","x":1,"c":11,"z":1},{"k":"Z_AJ","n":"アジョビ（AJ） 直前","g":"直前対策","x":1,"c":10,"z":1},{"k":"Z_NW","n":"ニュープロパッチ（NW） 直前","g":"直前対策","x":1,"c":11,"z":1},{"k":"Z_LC","n":"エルカルチンFF（LC） 直前","g":"直前対策","x":1,"c":10,"z":1},{"k":"Z_IC","n":"アイクルシグ（IC） 直前","g":"直前対策","x":1,"c":10,"z":1},{"k":"Z_SEIDO","n":"医療関連制度 直前","g":"直前対策","x":5,"c":46,"z":1},{"k":"Z_GL","n":"販売情報提供活動GL 直前","g":"直前対策","x":4,"c":10,"z":1},{"k":"Z_MANNER","n":"マナー 直前","g":"直前対策","x":2,"c":67,"z":1},{"k":"Z_NINTEI","n":"MR認定制度 直前","g":"直前対策","x":1,"c":5,"z":1}];
 var INLINE=/*INLINE*/null/*END*/;
-var CRY={"salt":"XFcxvI7gdtuLZWA3RjIgww==","it":150000,"chk":"hTZomEq5L2cwCUwMd0LAdw==.LyY0eDzxpe+4e9dTLjnXTw=="},KEY=null,VER="20261102220459";
+var CRY={"salt":"XFcxvI7gdtuLZWA3RjIgww==","it":150000,"chk":"yYP9Aih9aBul14BCrRPoVA==.L4pE3WbUmFDwfhuh7nUVjg=="},KEY=null,VER="20261104190024";
 var cache={},rec={},pf={o:"r",f:"a",au:1},dy={d:"",n:0},S=null,T=null,ZM=0;
 function ld(k,d){try{return JSON.parse(localStorage.getItem(k))||d}catch(e){return d}}
 function sv(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
@@ -105,12 +107,16 @@ function zhome(){
   var h='<div class="row"><button data-a="top">← 戻る</button><span class="sub">本番まで '+Math.max(0,Math.ceil((new Date(2026,10,5)-new Date(td()))/864e5))+'日</span></div>';
   h+='<h1 style="color:var(--ng);margin-top:10px">直前対策</h1><p class="sub">試験範囲のOh-Campus問題・確認問題、間違えやすい所、昔からある品目の頻出形式に絞った問題。前日の夜・当日の朝用。</p>';
   h+='<button class="big zr" data-a="zgo">直前対策をどんどん解く（全部）</button>';
+  h+='<button class="big zu" data-a="zun">まだ解いていない問題を解く <span id="zn"></span></button>';
   h+='<div class="two"><button data-a="wr">間違えた問題（全単元）</button><button data-a="zwr">直前で間違えた問題</button></div>';
   h+='<div class="opt">音声 '+ob("vo","0","オフ")+ob("vo","1","オン")+'</div>';
   h+='<h2>項目別</h2>';
   ZU().forEach(function(u){h+='<button class="u" data-u="'+u.k+'"><span>'+e(u.n.replace(/ 直前$/,""))+'</span><span>本番'+u.x+'問・'+u.c+'問</span></button>'});
   A.innerHTML=h;scrollTo(0,0);
+  zleft().then(function(l){var el=document.getElementById("zn");if(el)el.textContent=l.length?"残り"+l.length+"問":"全部解きました"});
 }
+// 直前対策のうち一度も答えていない問題（同じ問題は1回だけ数える）
+function zleft(){return get(ZU().map(function(u){return u.k})).then(function(l){var s={};return l.filter(function(q){if(rec[q.i]!=null||s[q.i])return false;return s[q.i]=1})})}
 function ob(k,v,t){return '<button class="'+(pf[k]==v?"on":"")+'" data-k="'+k+'" data-v="'+v+'">'+t+'</button>'}
 
 A.onclick=function(ev){
@@ -123,6 +129,7 @@ A.onclick=function(ev){
   if(d.a=="z")return zhome();
   if(d.a=="top")return home();
   if(d.a=="go"||d.a=="zgo"){var zg=d.a=="zgo";get((zg?ZU():MU()).map(function(u){return u.k})).then(function(l){if(!zg)l=l.filter(ins);start(sh(l.filter(wr)).concat(sh(l.filter(function(q){return rec[q.i]==null})),sh(l.filter(function(q){return rec[q.i]===1}))),zg?"直前対策":"どんどん解く")});return}
+  if(d.a=="zun"){zleft().then(function(l){if(l.length)start(sh(l),"直前のまだ解いていない問題")});return}
   if(d.a=="zwr"){get(ZU().map(function(u){return u.k})).then(function(l){start(sh(l.filter(wr)),"直前で間違えた問題")});return}
   if(d.a=="mock"){get(MU().map(function(u){return u.k})).then(function(){var o=[];MU().forEach(function(u){o=o.concat(sh(cache[u.k].filter(ins)).slice(0,Math.max(1,Math.round(u.x/100*30))))});start(sh(o),"本番配分")});return}
   if(d.a=="wr"){get(UNITS.map(function(u){return u.k})).then(function(l){start(sh(l.filter(wr)),"間違えた問題")});return}
